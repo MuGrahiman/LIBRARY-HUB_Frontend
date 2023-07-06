@@ -25,7 +25,7 @@ function BookAddModalPage({ onClose, id }) {
     for (const element of data.entries()) {
       console.log(element)
     }
-    ``
+    
     // runaddLibrary(data)
     addBook(data)
       .unwrap()
