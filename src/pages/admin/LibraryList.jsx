@@ -5,7 +5,7 @@ import { TABLE_ROWS } from "../data";
 import LibraryListModalForm from "./LibraryListModalForm";
 import SearchBar from "../../Components/SearchBar";
 import { useSelector } from "react-redux";
-import { addLibrary, fetchLibrary } from "../../store";
+import { addLibrary, fetchLibrary } from "../../Store";
 import Skelton from "../../Components/Skelton";
 import useThunk from "../../Hooks/use-Thunk";
 import useWindowWidth from "../../Hooks/use-WW";

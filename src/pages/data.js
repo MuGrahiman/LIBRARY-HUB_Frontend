@@ -1,6 +1,6 @@
 import { CgProfile } from "react-icons/cg";
 import { FaAddressBook, FaUsers } from "react-icons/fa";
-import { GiVerticalBanner } from "react-icons/gi";
+import { GiVerticalBanner,GiPriceTag } from "react-icons/gi";
 import { ImBooks } from "react-icons/im";
 import { MdCategory, MdDashboardCustomize, MdEventNote } from "react-icons/md";
 
@@ -122,6 +122,7 @@ export const Menus = [
   { title: "Catalog", to:'collection', icon: <ImBooks /> },
   { title: "Orders", to:'reserved', icon: <FaAddressBook /> },
   { title: "Users ", to:'users', icon: <FaUsers /> },
+  { title: "Plans", to:'plans', icon: <GiPriceTag /> },
   { title: "Events", to:'events', icon: <MdEventNote /> },
   { title: "Category", to:'category', icon: <MdCategory /> },
   { title: "Banner ", to:'banner', icon: <GiVerticalBanner /> },

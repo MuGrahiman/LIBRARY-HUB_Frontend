@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate, Outlet, Navigate } from "react-router-dom";
-import {axiosInstance as axios} from "../store/Axios/axiosInstance";
+import {axiosInstance as axios} from "../Store/Axios/axiosInstance";
 
 function RouterProtector({ protect }) {
   const [auth, setAuth] = useState(null);

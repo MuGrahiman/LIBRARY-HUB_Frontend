@@ -1,60 +1,82 @@
 import React, { useEffect, useState } from "react";
-import Modal from "../../Components/Modal";
+import Modal from "../../../Components/Modal";
 import {
   useFetchSinglePlansQuery,
   useRemovePlansMutation,
   useUpdateSinglePlansMutation,
-} from "../../Store";
+} from "../../../Store";
 import Swal from "sweetalert2";
 import { Spinner } from "@material-tailwind/react";
 import { Input, Button } from "@material-tailwind/react";
-import { ToastContainer, toast } from "react-toastify";
+import { Bounce, ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-function APMEditPage({ onClose, plan }) {
-  const { data, error, isLoading, isFetching, isSuccess } =
-    useFetchSinglePlansQuery(plan);
-
-  const [updateLPlan, updateLResult] = useUpdateSinglePlansMutation();
+function PlanEditModalPage({ onClose, plan }) {
+  let isLoading, error;
+  // const { data, error, isLoading, isFetching, isSuccess } =
+  //   useFetchSinglePlansQuery({Role:'library',Plan:plan});
+  const [data, setData] = useState(plan);
+  const [updateplan, updateLResult] = useUpdateSinglePlansMutation();
   const [removePlan, removeResult] = useRemovePlansMutation();
 
   const [formData, setFormData] = useState({});
   useEffect(() => {
+    console.log(plan);
     if (data) {
-      const InitialData = {
-        LPName: data?.result.LPName,
-        LPDuration: data?.result.LPDuration,
-        LPCost: data?.result.LPCost,
-      };
-      setFormData(InitialData);
+      console.log(data.Name,data.Amount,data.Duration);
+      // const InitialData = {
+      //   Name: data?.result.Name,
+      //   Duration: data?.result.Duration,
+      //   Amount: data?.result.Amount,
+      // };
+      setFormData({
+        Name: data?.Name,
+        Duration: data?.Duration,
+        Amount: data?.Amount,
+      });
     }
-  }, [data]);
+  }, [data, plan]);
 
   const handleFormChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
   const handleFormSubmit = () => {
-    updateLPlan({ plan, formData })
-    .unwrap()
-    .then((res) => {
-      if (res.success) Swal.fire("success!", "", "success").then(()=>onClose());
-      if (res.failed) Swal.fire("Oops!", "", "error");
-    });
+    updateplan({ Plan: plan, Data: formData, Role: "library" })
+      .unwrap()
+      .then((res) => {
+        if (res.success)
+          Swal.fire("success!", "", "success").then(() => onClose());
+        if (res.failed) Swal.fire("Oops!", "", "error");
+      });
   };
   const handleRemove = async () => {
     Swal.fire({
       title: "Do you want to delete?",
       showCancelButton: true,
-      confirmButtonText: "Submit",
+      confirmButtonText: "yes",
     }).then((result) => {
       if (result.isConfirmed) {
-        removePlan(plan)
+        removePlan({ Plan: plan, Role: "library" })
           .unwrap()
           .then((res) => {
-            if (res.success) Swal.fire("success!", "", "success").then(()=>onClose());
+            if (res.success)
+              toast.success("success!",{
+                // position: "bottom-right",
+                autoClose: 1000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: false,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+                transition: Bounce,
+                onClose: () => onClose(),
+              });
             if (res.failed) Swal.fire("Oops!", "", "error");
-          });
+          }).catch((err)=>{
+            console.log(err)
+            toast.error('Oops!!! something went wrong')});
       }
     });
   };
@@ -63,7 +85,7 @@ function APMEditPage({ onClose, plan }) {
     <div className="w-full sm:flex justify-between gap-3 items-center">
       <div className="w-1/2 my-2 ">
         <Button
-          disabled={removeResult.isLoading}
+          disabled={removeResult.isLoading || updateLResult.isLoading}
           fullWidth
           color="red"
           type="submit"
@@ -77,7 +99,7 @@ function APMEditPage({ onClose, plan }) {
         <Button
           fullWidth
           type="submit"
-          disabled={updateLResult.isLoading}
+          disabled={removeResult.isLoading || updateLResult.isLoading}
           onClick={handleFormSubmit}
           size="sm"
         >
@@ -111,27 +133,27 @@ function APMEditPage({ onClose, plan }) {
               size="lg"
               required
               type="string"
-              value={formData.LPName}
+              value={formData.Name}
               onChange={handleFormChange}
-              name="LPName"
+              name="Name"
               label="Plan Name"
             />
             <Input
               size="lg"
               required
               type="string"
-              value={formData.LPDuration}
+              value={formData.Duration}
               onChange={handleFormChange}
-              name="LPDuration"
+              name="Duration"
               label="Duration"
             />
             <Input
               size="lg"
               required
               type="number"
-              value={formData.LPCost}
+              value={formData.Amount}
               onChange={handleFormChange}
-              name="LPCost"
+              name="Amount"
               label="Amount"
             />
           </div>
@@ -147,4 +169,4 @@ function APMEditPage({ onClose, plan }) {
   );
 }
 
-export default APMEditPage;
+export default PlanEditModalPage;

@@ -1,5 +1,5 @@
 const data = new FormData();
-export const FormDataFunction = (Data) => {
+export const FormDataAppend = (Data) => {
   for (const field in Data) {
     data.append(field, Data[field]);
   }

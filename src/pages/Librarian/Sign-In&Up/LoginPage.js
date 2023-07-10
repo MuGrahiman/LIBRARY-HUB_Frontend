@@ -5,7 +5,7 @@ import Swal from "sweetalert2";
 import { Flip, ToastContainer, toast } from "react-toastify";
 
 import { Navigate, useNavigate } from "react-router-dom";
-import { useLogLibraryMutation } from "../../../store";
+import { useLogLibraryMutation } from "../../../Store";
 import useCript from "../../../Hooks/use-Cript";
 
 function LoginPage() {
@@ -32,7 +32,7 @@ function LoginPage() {
           progress: undefined,
           theme: "light",
           transition: Flip,
-          onClose:()=>navigate("/library/otp")
+          onClose:navigate("/library/otp")
         });
       
       })
@@ -52,7 +52,7 @@ function LoginPage() {
 
   return (
     <div className="h-screen flex justify-center items-center">
-      <ToastContainer /> {/* Render ToastContainer component */}
+      {/* <ToastContainer /> Render ToastContainer component */}
       <Login
         signIn={"/library/signup"}
         isLoading={results.isLoading}

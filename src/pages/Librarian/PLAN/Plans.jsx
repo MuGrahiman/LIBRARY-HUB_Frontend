@@ -1,20 +1,20 @@
 import React, { useEffect, useState } from "react";
-import Table from "../../Components/Tables/Table";
+import Table from "../../../Components/Tables/Table";
 import { Button, Input } from "@material-tailwind/react";
 import {
   MagnifyingGlassIcon,
   PencilSquareIcon,
 } from "@heroicons/react/24/outline";
 import { Spinner } from "@material-tailwind/react";
-import Nav from "../../Components/Nav";
-import { useFetchPlansQuery } from "../../Store";
-import SearchBar from "../../Components/SearchBar";
-import useWindowWidth from "../../Hooks/use-WW";
-import APlanModalFormPage from "./PlanAdd";
-import APlanModalListPage from "./PlanEdit";
+import Nav from "../../../Components/Nav";
+import { useFetchLibraryPlansQuery } from "../../../Store";
+import SearchBar from "../../../Components/SearchBar";
+import useWindowWidth from "../../../Hooks/use-WW";
+import PlanAddModalPage from "./PlanAddModalPage";
+import PlanEditModalPage from "./PlanEditModalPage";
 
-function APlanPage() {
-  const { data, error, isLoading } = useFetchPlansQuery();
+function PlanPage() {
+  const { data, error, isLoading } = useFetchLibraryPlansQuery({Role:'library'});
   const [sortData, setSortData] = useState([]);
   const [search, setSearch] = useState("");
   const [Plan, setPlan] = useState("");
@@ -22,23 +22,24 @@ function APlanPage() {
   const [editModal, setEditModal] = useState(false);
   useEffect(() => {
     if (data) {
+      console.log(data)
       setSortData(data.result);
     }
   }, [data]);
   const columns = [
     {
       name: "Name",
-      selector: (row) => row.LPName,
+      selector: (row) => row.Name,
       sort: true,
     },
     {
       name: "Duration",
-      selector: (row) => row.LPDuration,
+      selector: (row) => row.Duration,
       sort: true,
     },
     {
       name: "Cost",
-      selector: (row) => row.LPCost,
+      selector: (row) => row.Amount,
       sort: true,
     },
 
@@ -107,7 +108,7 @@ function APlanPage() {
   let content;
   if (isLoading) {
     content = (
-      <div className="flex justify-center items-center h-screen">
+      <div className="flex justify-center  h-screen">
         <Spinner className="h-20 w-20" color="white" />
       </div>
     );
@@ -119,25 +120,31 @@ function APlanPage() {
   if (sortData) {
     content = (
       <>
-        <SearchBar
+        {/* <SearchBar
           BTName="ADD"
           ACTION={SearchActionBar}
           INPUT={INPUT}
           HEAD={"Plans For Library"}
-        />
+        /> */}
         <Table data={sortData} columns={Visible_Headings} />
       </>
     );
   }
 
   return (
-    <div>
-      <Nav />
+<div className={` w-3/4 flex-col overflow-x-hidden mx-auto`}>
+  {/* <Nav /> */}
+      <SearchBar
+        BTName="ADD"
+        ACTION={SearchActionBar}
+        INPUT={INPUT}
+        HEAD={"Plans For Library"}
+      />      
       {content}
-      {formModal && <APlanModalFormPage onClose={() => setFormModal(false)} />}
-      {editModal && <APlanModalListPage plan={Plan} onClose={() => setEditModal(false)} />}
+      {formModal && <PlanAddModalPage onClose={() => setFormModal(false)} />}
+      {editModal && <PlanEditModalPage plan={Plan} onClose={() => setEditModal(false)} />}
     </div>
   );
 }
 
-export default APlanPage;
+export default PlanPage;

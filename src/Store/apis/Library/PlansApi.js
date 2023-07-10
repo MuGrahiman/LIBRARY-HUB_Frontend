@@ -21,9 +21,10 @@
           providesTags:(res,err,arg)=>{
             return [{type:'Plan'}]
           },
-          query: () => {
+          query: (data) => {
+            const {Role} = data
             return {
-              url: "/library/fetch",
+              url: `/${Role}/fetch`,
               params: {},
               method: "GET",
             };
@@ -34,10 +35,11 @@
           invalidatesTags:(res,err,arg)=>{
             return [{type:'Plan'}]
           },
-          query: (plan) => {
+          query: (data) => {
+            const {Role,Plan} = data
             return {
-              url: `/library/single`,
-              params: {planId:plan._id},
+              url: `/${Role}/single`,
+              params: {planId:Plan._id},
               method: "GET",
             };
           },
@@ -49,17 +51,17 @@
           },
         
           query: (data) => {
-            const {plan,formData} = data
-            console.log(plan._id)
-            console.log(formData)
+            const {Role, Plan, Data } = data;
+            console.log(Plan._id);
+            console.log(Data);
             return {
-              url: `/library/single`,
-              params: {planId:plan._id},
+              url: `/${Role}/single`,
+              params: { planId: Plan._id },
               method: "PUT",
               headers: {
                 "Content-Type": "application/json",
               },
-              body: JSON.stringify(formData),
+              body: JSON.stringify(Data),
             };
           },
         }),
@@ -68,26 +70,29 @@
             return [{type:'Plan'}]
           },
           query: (data) => {
+            const {Role,Data } = data;
+  
             return {
-              url: "/library/add",
+              url: `/${Role}/add`,
               method: "POST",
               headers: {
                 "Content-Type": "application/json",
               },
               params: {},
-              body: JSON.stringify(data),
+              body: JSON.stringify(Data),
             };
           },
         }),
-        removeLibraryPlans: builder.mutation({
-          invalidatesTags:(res,err,arg)=>{
-            return [{type:'Plan'}]
+        removePlans: builder.mutation({
+          invalidatesTags: (res, err, arg) => {
+            return [{ type: "Plan" }];
           },
-          query: (plan) => {
+          query: (data) => {
+            const {Role,Plan } = data;
             return {
-              url: `/library/remove`,
+              url: `/${Role}/remove`,
               method: "DELETE",
-              params:{planId:plan._id}
+              params: { planId: Plan._id },
             };
           },
         }),

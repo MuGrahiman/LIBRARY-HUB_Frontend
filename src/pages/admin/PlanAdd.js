@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Modal from "../../Components/Modal";
-import { useAddPlansMutation } from "../../store";
+import { useAddPlansMutation } from "../../Store";
 import { Input, Button } from "@material-tailwind/react";
 import Swal from "sweetalert2";
 

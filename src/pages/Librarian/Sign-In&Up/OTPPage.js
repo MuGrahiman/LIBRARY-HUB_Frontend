@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Login from "../../../Components/Login";
 import { useNavigate } from "react-router-dom";
-import { useOTPMutation, useResendMutation } from "../../../store";
+import { useOTPMutation, useResendMutation } from "../../../Store";
 import useCript from "../../../Hooks/use-Cript";
 import { Bounce, Flip, ToastContainer, toast } from "react-toastify";
 import { Spinner } from "@material-tailwind/react";

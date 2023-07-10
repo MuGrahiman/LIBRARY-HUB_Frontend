@@ -11,7 +11,10 @@ const Api = createApi({
   reducerPath: "books",
   baseQuery: axiosBaseQuery({ 
     baseUrl: "http://localhost:4001/books",
-   
+    fetchFn:async (...arg)=>{
+      await pause(1000);
+      return fetch(...arg);
+    },
     prepareHeaders: (headers) => {
       headers['Authorization'] = `Bearer ${token}`;
       return headers;
@@ -36,10 +39,10 @@ const Api = createApi({
         invalidatesTags: (res, err, arg) => {
           return [{ type: "Book" }];
         },
-        query: (plan) => {
+        query: (data) => {
           return {
             url: `/single`,
-            params: { planId: plan._id },
+            params: { Id: data._id },
             method: "GET",
           };
         },
@@ -70,17 +73,15 @@ const Api = createApi({
         },
 
         query: (data) => {
-          const { plan, formData } = data;
-          console.log(plan._id);
-          console.log(formData);
+          
           return {
             url: `/single`,
-            params: { planId: plan._id },
+            params: { Id: data.Id },
             method: "PUT",
             headers: {
               "Content-Type": "multipart/form-data",
             },
-            body: JSON.stringify(formData),
+            body: data.Data,
           };
         },
       }),

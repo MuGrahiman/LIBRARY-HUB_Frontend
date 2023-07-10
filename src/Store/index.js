@@ -6,6 +6,8 @@ import { LoginApi as adminLoginApi } from "./apis/Admin/LoginApi";
 import { Api as libraryLoginApi } from "./apis/Library/LoginApi";
 import { Api as libraryPlansApi } from "./apis/Library/PlansApi";
 import { Api as booksApi } from "./apis/Library/BooksApi";
+import { Api as UserApi } from "./apis/Library/UserApi";
+import { Api as CategoryApi } from "./apis/Library/CategoryApi";
 // import { setupListeners } from "@reduxjs/toolkit/q./apis/Library/plansApiuery";
 
 const store = configureStore({
@@ -15,7 +17,10 @@ const store = configureStore({
     [adminPlansApi.reducerPath]: adminPlansApi.reducer,
     library: libraryReducer, //redux thunk
     [libraryLoginApi.reducerPath]: libraryLoginApi.reducer,
+    [libraryPlansApi.reducerPath]: libraryPlansApi.reducer,
     [booksApi.reducerPath]: booksApi.reducer,
+    [UserApi.reducerPath]: UserApi.reducer,
+    [CategoryApi.reducerPath]: CategoryApi.reducer,
   },
   middleware: (getDefaultMiddleware) => {
     return getDefaultMiddleware()
@@ -23,7 +28,9 @@ const store = configureStore({
       .concat(adminLoginApi.middleware)
       .concat(libraryLoginApi.middleware)
       .concat(libraryPlansApi.middleware)
-      .concat(booksApi.middleware);
+      .concat(booksApi.middleware)
+      .concat(UserApi.middleware)
+      .concat(CategoryApi.middleware);
     //when ever you create an api you got an middleware and also connect the middle ware like this
     // .concat(adminPlanApi.middleware);
   },
@@ -60,3 +67,17 @@ export {
   useGetBookQuery,
   useRemoveBookMutation,
 } from "./apis/Library/BooksApi";
+export {
+  useAddUserMutation,
+  useEditUserMutation,
+  useFetchUsersQuery,
+  useGetUserQuery,
+  useToggleUserMutation,
+} from "./apis/Library/UserApi.js";
+export {
+  useAddCategoryMutation,
+  useFetchCategoriesQuery,
+  useFetchCategoryQuery,
+  useRemoveCategoryMutation,
+  useUpdateCategoryMutation,
+} from "./apis/Library/CategoryApi";
