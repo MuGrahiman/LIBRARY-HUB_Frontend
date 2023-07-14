@@ -123,10 +123,11 @@ export const Menus = [
   { title: "Orders", to:'reserved', icon: <FaAddressBook /> },
   { title: "Users ", to:'users', icon: <FaUsers /> },
   { title: "Plans", to:'plans', icon: <GiPriceTag /> },
-  { title: "Events", to:'events', icon: <MdEventNote /> },
-  { title: "Category", to:'category', icon: <MdCategory /> },
-  { title: "Banner ", to:'banner', icon: <GiVerticalBanner /> },
+  // { title: "Events", to:'events', icon: <MdEventNote /> },
+  // { title: "Category", to:'category', icon: <MdCategory /> },
+  // { title: "Banner ", to:'banner', icon: <GiVerticalBanner /> },
   { title: "Profile", to:'profile', icon: <CgProfile /> },
+  { title: "Log-Out", to:'logout', icon: <CgProfile /> },
 ];
 
 export const TABLPLANROWS = [

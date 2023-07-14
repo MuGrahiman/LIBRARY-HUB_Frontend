@@ -40,11 +40,12 @@ const libraryDataSlice = createSlice({
     });
     builder.addCase(addLibrary.fulfilled, (state, action) => {
       state.isLoading = false;
-      state.data = action.payload;
+      // state.data = action.payload;
     });
     builder.addCase(addLibrary.rejected, (state, action) => {
       state.isLoading = false;
-      state.error = action.payload;
+      console.log(action)
+      state.error = action.error.message;
     });
     //Log-In The Library
     builder.addCase(logLibrary.pending, (state, action) => {

@@ -5,6 +5,9 @@ export const axiosInstance = axios.create({
   headers: {
     "Content-Type": "application/json",
   },
+  // validateStatus: function (status) {
+  //   return status < 500; // Treat all 5xx status codes as errors
+  // },
 });
 
 export const axiosBaseQuery =

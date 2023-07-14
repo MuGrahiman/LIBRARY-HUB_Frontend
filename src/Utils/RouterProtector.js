@@ -28,7 +28,7 @@ function RouterProtector({ protect }) {
         // localStorage.removeItem(protect)
         navigate(`/${protect}/login`)
       });
-  }, []);
+  }, [navigate, protect, token]);
   console.log(`err.response.data.message`);
 
   if (auth === null) return null;

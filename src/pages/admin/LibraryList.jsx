@@ -18,17 +18,16 @@ function AListPage() {
   const [search, setSearch] = useState("");
   const [formModal, setFormModal] = useState(false);
   const [editModal, setEditModal] = useState(false);
-
+const [refresh,setRefresh] = useState(false)
   const [runfetchLibrary, isfetchLibraryError, isfetchLibraryLoading] =
     useThunk(fetchLibrary);
-  const [runaddLibrary, isaddLibraryError, isaddLibraryLoading] =
-    useThunk(addLibrary);
 
   useEffect(() => {
-    runfetchLibrary();
-  }, [runfetchLibrary]);
+    runfetchLibrary()
+    // .then((res)=>setData(res)).catch(err=>console.log(err));
+  }, [runfetchLibrary,refresh]);
 
-  const TABLE_HEAD = ["Logo", "Name", "Email", "PhoneNO", "Status", "Details"];
+  const TABLE_HEAD = [ "Name", "Email", "PhoneNO", "Status", "Details"];
 
   let content;
   if (isfetchLibraryLoading) {
@@ -93,7 +92,7 @@ function AListPage() {
       />
 
       {content}
-      {formModal && (<LibraryListModalForm onClose={() => setFormModal(false)} />)}
+      {formModal && (<LibraryListModalForm onClose={() => setFormModal(false)} Refresh={()=>setRefresh(!refresh)}/>)}
       {/* {editModal && <APlanModalListPage  onClose={() => setEditModal(false)} />} */}
     </div>
   );

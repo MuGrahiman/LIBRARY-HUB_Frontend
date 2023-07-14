@@ -53,7 +53,7 @@ export default function Table({ TABLE_ROWS, TABLE_HEAD, handleRemove }) {
 
                 return (
                   <tr key={data._id}>
-                    <td className={`${classes} hidden sm:table-cell`}>
+                    {/* <td className={`${classes} hidden sm:table-cell`}>
                       <div className="flex items-center gap-3">
                         <Avatar
                           src={data?.LLogo}
@@ -62,7 +62,7 @@ export default function Table({ TABLE_ROWS, TABLE_HEAD, handleRemove }) {
                           className="border border-blue-gray-50 bg-blue-gray-50/50 object-contain p-1"
                         />
                       </div>
-                    </td>
+                    </td> */}
                     <td className={`${classes}`}>
                       <div className="flex items-center gap-3">
                         <Typography
@@ -70,7 +70,7 @@ export default function Table({ TABLE_ROWS, TABLE_HEAD, handleRemove }) {
                           color="blue-gray"
                           className="font-bold"
                         >
-                          {data?.LName}
+                          {data?.Name}
                         </Typography>
                       </div>
                     </td>
@@ -80,7 +80,7 @@ export default function Table({ TABLE_ROWS, TABLE_HEAD, handleRemove }) {
                         color="blue-gray"
                         className="font-normal"
                       >
-                        {data?.LEmail}
+                        {data?.Email}
                       </Typography>
                     </td>
                     <td className={`${classes} hidden md:table-cell`}>
@@ -89,9 +89,10 @@ export default function Table({ TABLE_ROWS, TABLE_HEAD, handleRemove }) {
                         color="blue-gray"
                         className="font-normal"
                       >
-                        {data?.LPhoneNo}
+                        {data?.PhoneNo}
                       </Typography>
                     </td>
+                    
                     <td className={`${classes} hidden md:table-cell`}>
                       <div className="w-max">
                         <Chip

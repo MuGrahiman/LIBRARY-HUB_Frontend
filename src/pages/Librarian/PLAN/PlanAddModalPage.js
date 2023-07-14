@@ -22,30 +22,11 @@ function PlanAddModalPage({ onFormChange, onClose, actionBar }) {
       .then((res) => {
         console.log(res)
         toast.success(" Successfully added", {
-          position: "bottom-right",
-          autoClose: 1000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: false,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
-          transition: Bounce,
-          onClose: () => onClose(),
+          onClose: onClose(),
         });
       })
       .catch((err) => {
-        toast.error(err?.data?.message, {
-          position: "bottom-left",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
-          transition: Flip,
-        });
+        toast.error(err?.data?.message);
       }); 
     }).catch((err)=>console.log(err))
   };

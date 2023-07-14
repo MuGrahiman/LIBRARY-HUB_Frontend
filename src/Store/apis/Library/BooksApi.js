@@ -53,14 +53,12 @@ const Api = createApi({
           return [{ type: "Book" }];
         },
         query: (data) => {
-        const boundary =  "yet another boundary"
           return {
             url: "/add",
             method: "POST",
               headers: {
               "Content-Type": `multipart/form-data`,
             },
-            // boundary=----WebKitFormBoundary8GfjbenvSzsHc5Il
             params: {},
             body: data,
           };

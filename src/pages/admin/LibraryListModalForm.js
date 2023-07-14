@@ -2,39 +2,39 @@ import React, { useState } from "react";
 import Modal from "../../Components/Modal";
 import useThunk from "../../Hooks/use-Thunk";
 import { addLibrary } from "../../Store";
-import { Input, Button,Typography } from "@material-tailwind/react";
+import { Input, Button, Typography } from "@material-tailwind/react";
 import Swal from "sweetalert2";
 import LibraryValidationSchema, {
   LibrarySchema,
 } from "../../Schema/LibrarySchema";
 import useValidator from "../../Hooks/use-Validator";
 import { BsExclamationCircle } from "react-icons/bs";
+import { toast } from "react-toastify";
 
-function LibraryListModalForm({ onFormChange, onClose, actionBar }) {
+function LibraryListModalForm({ Refresh, onClose, actionBar }) {
   const [runaddLibrary, isaddLibraryError, isaddLibraryLoading] =
     useThunk(addLibrary);
   const [formData, setFormData] = useState(LibrarySchema);
   const [runValidator, validatorError] = useValidator(LibraryValidationSchema);
 
   const handleFormSubmit = async (e) => {
-    const data = new FormData();
-    for (const field in formData) {
-      data.append(field, formData[field]);
-    }
+   
     runValidator(formData)
       .then((res) => {
+        
         runaddLibrary(formData)
           .then((res) => {
             console.log(res);
             if (res?.success)
-              Swal.fire("Saved!", "", "success").then(() => onClose());
-            if (res?.failed) Swal.fire("Oops!", "", "error");
+              Swal.fire("Saved!", "", "success").then(() => onClose(),Refresh());
           })
-          .catch((err) => console.log(err));
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+          .catch((err) => {
+         
+            console.log(err)
+            toast.error(err?.response?.data?.message || err.message )
+        });
+
+      }).catch((err) => console.log(err));
   };
 
   const modalActionBar = (
@@ -84,20 +84,22 @@ function LibraryListModalForm({ onFormChange, onClose, actionBar }) {
                 )}
               </div>
               <div className="w-[32rem]">
-              <Input
-               label="Email"
-               name="Email"
-                size="lg"
-                required
-                type="email"
+                <Input
+                  label="Email"
+                  name="Email"  
+                  size="lg"
+                  required
+                  type="email"
                   error={!!validatorError?.Email}
                   value={formData.Email}
-                onChange={(e) =>
-                  setFormData({ ...formData, [e.target.name]: e.target.value })
-                }
-               
-              />
-               {validatorError?.Email && (
+                  onChange={(e) =>
+                    setFormData({
+                      ...formData,
+                      [e.target.name]: e.target.value,
+                    })
+                  }
+                />
+                {validatorError?.Email && (
                   <Typography
                     variant="small"
                     color="gray"
@@ -109,19 +111,22 @@ function LibraryListModalForm({ onFormChange, onClose, actionBar }) {
                 )}
               </div>
               <div className="w-[32rem]">
-              <Input
-                label="Phone No"
-                name="PhoneNo"
-                size="lg"
-                required
-                type="number"
+                <Input
+                  label="Phone No"
+                  name="PhoneNo"
+                  size="lg"
+                  required
+                  type="number"
                   error={!!validatorError?.PhoneNo}
                   value={formData.PhoneNo}
-                onChange={(e) =>
-                  setFormData({ ...formData, [e.target.name]: e.target.value })
-                }
-              />
-               {validatorError?.PhoneNo && (
+                  onChange={(e) =>
+                    setFormData({
+                      ...formData,
+                      [e.target.name]: e.target.value,
+                    })
+                  }
+                />
+                {validatorError?.PhoneNo && (
                   <Typography
                     variant="small"
                     color="gray"
@@ -133,19 +138,22 @@ function LibraryListModalForm({ onFormChange, onClose, actionBar }) {
                 )}
               </div>
               <div className="w-[32rem]">
-              <Input
-                label="Contry"
-                name="Contry"
-                size="lg"
-                required
-                type="string"
+                <Input
+                  label="Contry"
+                  name="Contry"
+                  size="lg"
+                  required
+                  type="string"
                   error={!!validatorError?.Contry}
                   value={formData.Contry}
-                onChange={(e) =>
-                  setFormData({ ...formData, [e.target.name]: e.target.value })
-                }
-              />
-              {validatorError?.Contry && (
+                  onChange={(e) =>
+                    setFormData({
+                      ...formData,
+                      [e.target.name]: e.target.value,
+                    })
+                  }
+                />
+                {validatorError?.Contry && (
                   <Typography
                     variant="small"
                     color="gray"
@@ -157,18 +165,21 @@ function LibraryListModalForm({ onFormChange, onClose, actionBar }) {
                 )}
               </div>
               <div className="w-[32rem]">
-              <Input
-                label="State"
-                name="State"
-                size="lg"
-                required
-                type="string"
+                <Input
+                  label="State"
+                  name="State"
+                  size="lg"
+                  required
+                  type="string"
                   error={!!validatorError?.State}
                   value={formData.State}
-                onChange={(e) =>
-                  setFormData({ ...formData, [e.target.name]: e.target.value })
-                }
-              />
+                  onChange={(e) =>
+                    setFormData({
+                      ...formData,
+                      [e.target.name]: e.target.value,
+                    })
+                  }
+                />
                 {validatorError?.State && (
                   <Typography
                     variant="small"
@@ -181,18 +192,48 @@ function LibraryListModalForm({ onFormChange, onClose, actionBar }) {
                 )}
               </div>
               <div className="w-[32rem]">
-              <Input
-                label="City/Town"
-                name="City"
-                size="lg"
-                required
-                type="string"
+                <Input
+                  label="District"
+                  name="District"
+                  size="lg"
+                  required
+                  type="string"
+                  error={!!validatorError?.District}
+                  value={formData.District}
+                  onChange={(e) =>
+                    setFormData({
+                      ...formData,
+                      [e.target.name]: e.target.value,
+                    })
+                  }
+                />
+                {validatorError?.District && (
+                  <Typography
+                    variant="small"
+                    color="gray"
+                    className="flex items-center gap-1 font-normal mt-2"
+                  >
+                    <BsExclamationCircle className="w-4 h-4 -mt-px" />
+                    {validatorError?.State.message}
+                  </Typography>
+                )}
+              </div>
+              <div className="w-[32rem]">
+                <Input
+                  label="City/Town"
+                  name="City"
+                  size="lg"
+                  required
+                  type="string"
                   error={!!validatorError?.City}
                   value={formData.City}
-                onChange={(e) =>
-                  setFormData({ ...formData, [e.target.name]: e.target.value })
-                }
-              />
+                  onChange={(e) =>
+                    setFormData({
+                      ...formData,
+                      [e.target.name]: e.target.value,
+                    })
+                  }
+                />
                 {validatorError?.City && (
                   <Typography
                     variant="small"
@@ -205,19 +246,22 @@ function LibraryListModalForm({ onFormChange, onClose, actionBar }) {
                 )}
               </div>
               <div className="w-[32rem]">
-              <Input
-                label="Area"
-                name="Area"
-                size="lg"
-                required
-                type="string"
+                <Input
+                  label="Area"
+                  name="Area"
+                  size="lg"
+                  required
+                  type="string"
                   error={!!validatorError?.Area}
                   value={formData.Area}
-                onChange={(e) =>
-                  setFormData({ ...formData, [e.target.name]: e.target.value })
-                }
-              />
-               {validatorError?.Area && (
+                  onChange={(e) =>
+                    setFormData({
+                      ...formData,
+                      [e.target.name]: e.target.value,
+                    })
+                  }
+                />
+                {validatorError?.Area && (
                   <Typography
                     variant="small"
                     color="gray"
@@ -229,19 +273,22 @@ function LibraryListModalForm({ onFormChange, onClose, actionBar }) {
                 )}
               </div>
               <div className="w-[32rem]">
-              <Input
-                label="Land Mark"
-                name="LandMark"
-                size="lg"
-                required
-                type="string"
+                <Input
+                  label="Land Mark"
+                  name="LandMark"
+                  size="lg"
+                  required
+                  type="string"
                   error={!!validatorError?.LandMark}
                   value={formData.LandMark}
-                onChange={(e) =>
-                  setFormData({ ...formData, [e.target.name]: e.target.value })
-                }
-              />
-               {validatorError?.LandMark && (
+                  onChange={(e) =>
+                    setFormData({
+                      ...formData,
+                      [e.target.name]: e.target.value,
+                    })
+                  }
+                />
+                {validatorError?.LandMark && (
                   <Typography
                     variant="small"
                     color="gray"
@@ -253,28 +300,32 @@ function LibraryListModalForm({ onFormChange, onClose, actionBar }) {
                 )}
               </div>
               <div className="w-[32rem]">
-              <Input
-                label="Pin Number"
-                name="PinNo"
-                size="lg"
-                required
-                type="number"
+                <Input
+                  label="Pin Number"
+                  name="PinNo"
+                  size="lg"
+                  required
+                  type="number"
                   error={!!validatorError?.PinNo}
                   value={formData.PinNo}
-                onChange={(e) =>
-                  setFormData({ ...formData, [e.target.name]: e.target.value })
-                }
-              />{validatorError?.PinNo && (
-                <Typography
-                  variant="small"
-                  color="gray"
-                  className="flex items-center gap-1 font-normal mt-2"
-                >
-                  <BsExclamationCircle className="w-4 h-4 -mt-px" />
-                  {validatorError?.PinNo.message}
-                </Typography>
-              )}
-            </div>
+                  onChange={(e) =>
+                    setFormData({
+                      ...formData,
+                      [e.target.name]: e.target.value,
+                    })
+                  }
+                />
+                {validatorError?.PinNo && (
+                  <Typography
+                    variant="small"
+                    color="gray"
+                    className="flex items-center gap-1 font-normal mt-2"
+                  >
+                    <BsExclamationCircle className="w-4 h-4 -mt-px" />
+                    {validatorError?.PinNo.message}
+                  </Typography>
+                )}
+              </div>
               {/* <div className="w-[32rem]">
               <Input
                 label="Library Logo"

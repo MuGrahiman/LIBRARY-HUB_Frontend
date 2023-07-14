@@ -12,7 +12,11 @@ function useThunk(Thunk) {
       return dispatch(Thunk(arg))
         .unwrap()
         .then((res) => res)
-        .catch((errror) => setIsError(errror))
+        .catch((errror) =>{ 
+          // console.log(errror)
+          setIsError(errror)
+          throw errror
+        })
         .finally(() => setIsLoading(false));
     },
     [dispatch, Thunk]

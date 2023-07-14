@@ -14,7 +14,7 @@ import APlanModalFormPage from "./PlanAdd";
 import APlanModalListPage from "./PlanEdit";
 
 function APlanPage() {
-  const { data, error, isLoading } = useFetchPlansQuery();
+  const { data, error, isLoading } = useFetchPlansQuery({Role:'admin'});
   const [sortData, setSortData] = useState([]);
   const [search, setSearch] = useState("");
   const [Plan, setPlan] = useState("");
@@ -22,23 +22,26 @@ function APlanPage() {
   const [editModal, setEditModal] = useState(false);
   useEffect(() => {
     if (data) {
+      console.log(data)
       setSortData(data.result);
     }
   }, [data]);
+  console.log(data, error, isLoading)
+
   const columns = [
     {
       name: "Name",
-      selector: (row) => row.LPName,
+      selector: (row) => row.Name,
       sort: true,
     },
     {
       name: "Duration",
-      selector: (row) => row.LPDuration,
+      selector: (row) => row.Duration,
       sort: true,
     },
     {
-      name: "Cost",
-      selector: (row) => row.LPCost,
+      name: "Amount",
+      selector: (row) => row.Amount,
       sort: true,
     },
 
@@ -68,13 +71,13 @@ function APlanPage() {
   useEffect(() => {
     const filteredData = sortData?.filter(
       (country) =>
-        country.LPName?.toLowerCase().includes(
+        country.Name?.toLowerCase().includes(
           search?.toString().toLowerCase()
         ) ||
-        country.LPCost?.toString()
+        country.Amount?.toString()
           .toLowerCase()
           .includes(search?.toString().toLowerCase()) ||
-        country.LPDuration?.toString().includes(
+        country.Duration?.toString().includes(
           search?.toString().toLowerCase()
         )
     );
@@ -128,6 +131,14 @@ function APlanPage() {
         <Table data={sortData} columns={Visible_Headings} />
       </>
     );
+  }
+  if (!sortData && !error && !isLoading) {
+    content = (<SearchBar
+      BTName="ADD"
+      ACTION={SearchActionBar}
+      INPUT={INPUT}
+      HEAD={"Plans For Library"}
+    />)
   }
 
   return (

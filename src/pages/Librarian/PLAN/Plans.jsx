@@ -7,14 +7,14 @@ import {
 } from "@heroicons/react/24/outline";
 import { Spinner } from "@material-tailwind/react";
 import Nav from "../../../Components/Nav";
-import { useFetchLibraryPlansQuery } from "../../../Store";
+import { useFetchPlansQuery } from "../../../Store";
 import SearchBar from "../../../Components/SearchBar";
 import useWindowWidth from "../../../Hooks/use-WW";
 import PlanAddModalPage from "./PlanAddModalPage";
 import PlanEditModalPage from "./PlanEditModalPage";
 
 function PlanPage() {
-  const { data, error, isLoading } = useFetchLibraryPlansQuery({Role:'library'});
+  const { data, error, isLoading } = useFetchPlansQuery({Role:'library'});
   const [sortData, setSortData] = useState([]);
   const [search, setSearch] = useState("");
   const [Plan, setPlan] = useState("");

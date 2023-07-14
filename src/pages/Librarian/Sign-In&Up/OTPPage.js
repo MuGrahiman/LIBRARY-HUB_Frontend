@@ -41,32 +41,12 @@ function OTPPage() {
     reSend()
       .unwrap()
       .then(() => {
-        toast.info("Resend OTP Successfully", {
-          position: "top-center",
-          autoClose: 1000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
-          transition: Bounce,
-        });
+        toast.info("Resend OTP Successfully",);
         setMinutes(1);
         setSeconds(30);
       })
       .catch((err) => {
-        toast.error(err?.data?.message, {
-          position: "top-center",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
-          transition: Flip,
-        });
+        toast.error(err?.data?.message);
       });
   };
   console.log(result);
@@ -78,30 +58,12 @@ function OTPPage() {
         const { success } = res;
         localStorage.setItem("library", success);
         toast.success("Login successfully", {
-          position: "top-center",
-          autoClose: 3000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
-          transition: Flip,
-          onClose: () => navigate("/library/dashboard"),
+         
+          onClose: navigate("/library/dashboard"),
         });
       })
       .catch((err) => {
-        toast.error(err?.data?.message, {
-          position: "top-center",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
-          transition: Flip,
-        });
+        toast.error(err?.data?.message);
       });
   };
 

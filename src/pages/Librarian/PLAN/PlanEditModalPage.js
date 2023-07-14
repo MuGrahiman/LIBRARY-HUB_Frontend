@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Modal from "../../../Components/Modal";
 import {
-  useFetchSinglePlansQuery,
   useRemovePlansMutation,
   useUpdateSinglePlansMutation,
 } from "../../../Store";
@@ -24,11 +23,6 @@ function PlanEditModalPage({ onClose, plan }) {
     console.log(plan);
     if (data) {
       console.log(data.Name,data.Amount,data.Duration);
-      // const InitialData = {
-      //   Name: data?.result.Name,
-      //   Duration: data?.result.Duration,
-      //   Amount: data?.result.Amount,
-      // };
       setFormData({
         Name: data?.Name,
         Duration: data?.Duration,
@@ -46,7 +40,7 @@ function PlanEditModalPage({ onClose, plan }) {
       .unwrap()
       .then((res) => {
         if (res.success)
-          Swal.fire("success!", "", "success").then(() => onClose());
+          toast.success("successfully updated",{onClose:onClose()});
         if (res.failed) Swal.fire("Oops!", "", "error");
       });
   };
@@ -61,17 +55,8 @@ function PlanEditModalPage({ onClose, plan }) {
           .unwrap()
           .then((res) => {
             if (res.success)
-              toast.success("success!",{
-                // position: "bottom-right",
-                autoClose: 1000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: false,
-                draggable: true,
-                progress: undefined,
-                theme: "light",
-                transition: Bounce,
-                onClose: () => onClose(),
+              toast.success("successfully Deleted!",{
+                onClose: onClose(),
               });
             if (res.failed) Swal.fire("Oops!", "", "error");
           }).catch((err)=>{

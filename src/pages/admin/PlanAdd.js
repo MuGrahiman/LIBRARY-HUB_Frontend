@@ -3,23 +3,25 @@ import Modal from "../../Components/Modal";
 import { useAddPlansMutation } from "../../Store";
 import { Input, Button } from "@material-tailwind/react";
 import Swal from "sweetalert2";
+import { toast } from "react-toastify";
 
 function APlanModalFormPage({ onFormChange, onClose, actionBar }) {
   const [addLPlans, results] = useAddPlansMutation();
-
+// let addLPlans, results
   const [formData, setFormData] = useState({
-    LPName: "",
-    LPDuration: "",
-    LPCost: "",
+    Name: "",
+    Duration: "",
+    Amount: "",
   });
 
   const handleFormSubmit = () => {
-    addLPlans(formData)
+    console.log(formData)
+    addLPlans({Role:'admin',Data:formData})
       .unwrap()
     .then((res) => {
       if (res.success) Swal.fire("Saved!", "", "success").then(()=>onClose());
       if (res.failed) Swal.fire("Oops!", "", "error");
-    });
+    }).catch(err=>toast.error(err.data.message));
   };
   const handleFormChange = (e) => {
     const { name, value } = e.target;
@@ -49,27 +51,27 @@ function APlanModalFormPage({ onFormChange, onClose, actionBar }) {
                 size="lg"
                 required
                 type="string"
-                value={formData.LPName}
+                value={formData.Name}
                 onChange={handleFormChange}
-                name="LPName"
+                name="Name"
                 label="Plan Name"
               />
               <Input
                 size="lg"
                 required
                 type="string"
-                value={formData.LPDuration}
+                value={formData.Duration}
                 onChange={handleFormChange}
-                name="LPDuration"
+                name="Duration"
                 label="Duration"
               />
               <Input
                 size="lg"
                 required
                 type="number"
-                value={formData.LPCost}
+                value={formData.Amount}
                 onChange={handleFormChange}
-                name="LPCost"
+                name="Amount"
                 label="Amount"
               />
             </div>

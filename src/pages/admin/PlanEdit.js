@@ -1,30 +1,26 @@
 import React, { useEffect, useState } from "react";
 import Modal from "../../Components/Modal";
-import {
-  useFetchSinglePlansQuery,
-  useRemovePlansMutation,
-  useUpdateSinglePlansMutation,
-} from "../../Store";
+
 import Swal from "sweetalert2";
 import { Spinner } from "@material-tailwind/react";
 import { Input, Button } from "@material-tailwind/react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useFetchSinglePlansQuery, useRemovePlansMutation, useUpdateSinglePlansMutation } from "../../Store";
 
 function APMEditPage({ onClose, plan }) {
   const { data, error, isLoading, isFetching, isSuccess } =
-    useFetchSinglePlansQuery(plan);
+    useFetchSinglePlansQuery({Plan:plan,Role:'admin'});
 
-  const [updateLPlan, updateLResult] = useUpdateSinglePlansMutation();
+  const [updatePlan, updateLResult] = useUpdateSinglePlansMutation();
   const [removePlan, removeResult] = useRemovePlansMutation();
-
   const [formData, setFormData] = useState({});
   useEffect(() => {
     if (data) {
       const InitialData = {
-        LPName: data?.result.LPName,
-        LPDuration: data?.result.LPDuration,
-        LPCost: data?.result.LPCost,
+        Name: data?.result.Name,
+        Duration: data?.result.Duration,
+        Amount: data?.result.Amount,
       };
       setFormData(InitialData);
     }
@@ -35,10 +31,10 @@ function APMEditPage({ onClose, plan }) {
     setFormData({ ...formData, [name]: value });
   };
   const handleFormSubmit = () => {
-    updateLPlan({ plan, formData })
+    updatePlan({ Plan:plan, Data:formData,Role:'admin' })
     .unwrap()
     .then((res) => {
-      if (res.success) Swal.fire("success!", "", "success").then(()=>onClose());
+      if (res.success) toast.success("succefully updated",{onclose:onClose()});
       if (res.failed) Swal.fire("Oops!", "", "error");
     });
   };
@@ -46,15 +42,15 @@ function APMEditPage({ onClose, plan }) {
     Swal.fire({
       title: "Do you want to delete?",
       showCancelButton: true,
-      confirmButtonText: "Submit",
+      confirmButtonText: "ok",
     }).then((result) => {
       if (result.isConfirmed) {
-        removePlan(plan)
+        removePlan({Plan:plan,Role:'admin'})
           .unwrap()
           .then((res) => {
-            if (res.success) Swal.fire("success!", "", "success").then(()=>onClose());
+            if (res.success) toast.success("successfully deleted",{onclose:()=>onClose()});
             if (res.failed) Swal.fire("Oops!", "", "error");
-          });
+          }).catch(err=>toast.error(err.message))
       }
     });
   };
@@ -111,27 +107,27 @@ function APMEditPage({ onClose, plan }) {
               size="lg"
               required
               type="string"
-              value={formData.LPName}
+              value={formData.Name}
               onChange={handleFormChange}
-              name="LPName"
+              name="Name"
               label="Plan Name"
             />
             <Input
               size="lg"
               required
               type="string"
-              value={formData.LPDuration}
+              value={formData.Duration}
               onChange={handleFormChange}
-              name="LPDuration"
+              name="Duration"
               label="Duration"
             />
             <Input
               size="lg"
               required
               type="number"
-              value={formData.LPCost}
+              value={formData.Amount}
               onChange={handleFormChange}
-              name="LPCost"
+              name="Amount"
               label="Amount"
             />
           </div>

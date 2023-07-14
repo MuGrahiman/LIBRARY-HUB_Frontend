@@ -6,8 +6,8 @@ const pause = (duration) => {
   });
 };
 
-const plansApi = createApi({
-  reducerPath: "plans",
+const Api = createApi({
+  reducerPath: "Plan",
   baseQuery: fetchBaseQuery({
     baseUrl: "http://localhost:4001/plans",
     fetchFn: async (...arg) => {
@@ -15,6 +15,7 @@ const plansApi = createApi({
       return fetch(...arg);
     },
   }),
+
   endpoints(builder) {
     return {
       fetchPlans: builder.query({
@@ -22,7 +23,7 @@ const plansApi = createApi({
           return [{ type: "Plan" }];
         },
         query: (data) => {
-          const {Role} = data
+          const { Role } = data;
           return {
             url: `/${Role}/fetch`,
             params: {},
@@ -30,15 +31,13 @@ const plansApi = createApi({
           };
         },
       }),
+
       fetchSinglePlans: builder.query({
-        // providesTags:(res,err,arg)=>{
-        //   return [{type:'Plan',id:arg.id}]
-        // },
         invalidatesTags: (res, err, arg) => {
           return [{ type: "Plan" }];
         },
         query: (data) => {
-          const {Role,Plan} = data
+          const { Role, Plan } = data;
           return {
             url: `/${Role}/single`,
             params: { planId: Plan._id },
@@ -46,16 +45,14 @@ const plansApi = createApi({
           };
         },
       }),
+
       updateSinglePlans: builder.mutation({
-        // providesTags:(res,err,arg)=>{
-        //   return [{type:'Plan',id:arg.id}]
-        // },
         invalidatesTags: (res, err, arg) => {
           return [{ type: "Plan" }];
         },
 
         query: (data) => {
-          const {Role, Plan, Data } = data;
+          const { Role, Plan, Data } = data;
           console.log(Plan._id);
           console.log(Data);
           return {
@@ -69,12 +66,13 @@ const plansApi = createApi({
           };
         },
       }),
+
       addPlans: builder.mutation({
         invalidatesTags: (res, err, arg) => {
           return [{ type: "Plan" }];
         },
         query: (data) => {
-          const {Role,Data } = data;
+          const { Role, Data } = data;
 
           return {
             url: `/${Role}/add`,
@@ -87,12 +85,12 @@ const plansApi = createApi({
           };
         },
       }),
+      
       removePlans: builder.mutation({
-        invalidatesTags: (res, err, arg) => {
-          return [{ type: "Plan" }];
-        },
+        invalidatesTags: [{ type: "Plan" }],
+
         query: (data) => {
-          const {Role,Plan } = data;
+          const { Role, Plan } = data;
           return {
             url: `/${Role}/remove`,
             method: "DELETE",
@@ -110,6 +108,6 @@ export const {
   useFetchSinglePlansQuery,
   useUpdateSinglePlansMutation,
   useRemovePlansMutation,
-} = plansApi;
+} = Api;
 
-export { plansApi };
+export { Api };

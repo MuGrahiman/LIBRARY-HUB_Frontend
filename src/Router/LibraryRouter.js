@@ -12,6 +12,7 @@ import SignUpPage from "../pages/Librarian/Sign-In&Up/SignUpPage";
 import OTPPage from "../pages/Librarian/Sign-In&Up/OTPPage";
 import PlanPage from "../pages/Librarian/PLAN/Plans";
 import CategoryPage from "../pages/Librarian/CATEGORY/CategoryPage";
+import Logout from "../Utils/Log-Out";
 
 function LibraryRouter() {
   const [open, setOpen] = useState(true);
@@ -39,6 +40,7 @@ function LibraryRouter() {
         <Route path="users" element={<UserListPage />} />
         <Route path="plans" element={<PlanPage />} />
         <Route path="category" element={<CategoryPage />} />
+        <Route path="logout" element={<Logout item='library' />} />
       </Route>
     </Routes>
   );

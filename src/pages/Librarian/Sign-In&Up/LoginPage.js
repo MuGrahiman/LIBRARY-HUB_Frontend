@@ -19,42 +19,24 @@ function LoginPage() {
   const handleChange = (e) =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
   const handleSubmit = () =>
+
     logLibrary(formData)
       .unwrap()
       .then((res) => {
         toast.success("Email Validate successfully", {
-          position: "top-center",
-          autoClose: 3000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
-          transition: Flip,
           onClose:navigate("/library/otp")
         });
       
       })
       .catch((err) => {
-        toast.error(err?.data?.message, {
-          position: "top-center",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
-          transition: Flip,
-        });
+        toast.error(err?.data?.message);
       });
 
   return (
     <div className="h-screen flex justify-center items-center">
       {/* <ToastContainer /> Render ToastContainer component */}
       <Login
-        signIn={"/library/signup"}
+        // signIn={"/library/signup"}
         isLoading={results.isLoading}
         InputContent={
           <Input
