@@ -149,7 +149,7 @@ function BookListPage() {
         BTName="ADD"
         ACTION={SearchActionBar}
         INPUT={INPUT}
-        HEAD={"Plans For Library"}
+        HEAD={"Collection"}
       />
 
       {content}

@@ -24,31 +24,13 @@ function ALoginPage() {
         const { success } = res;
         localStorage.setItem("admin", success);
         toast.success("Login successfully", {
-          position: "top-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
-          transition: Flip,
+        
           onClose:navigate('/admin/dashboard')
         })
 
       }).catch(err => {
         console.log(err)
-        toast.error(err?.data?.message, {
-          position: "top-left",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
-          transition: Flip
-        });
+        toast.error(err?.data?.message);
       })
     else toast.error('Not Valid Data')
     }

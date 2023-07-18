@@ -11,42 +11,43 @@ import {
   PencilSquareIcon,
 } from "@heroicons/react/24/outline";
 import { Button,Spinner, Input } from "@material-tailwind/react";
+import { useFetchReservedDataQuery } from '../../../Store';
 
 
 function ReserveListPage() {
-console.log('hi therre in the ReserveListPage')
+const {data,error,isLoading} = useFetchReservedDataQuery()
 const [sortData, setSortData] = useState([]);
   const [search, setSearch] = useState("");
   const [sBar, setSBar] = useState(true);
   const [formModal, setFormModal] = useState(false);
   const [editModal, setEditModal] = useState(false);
   const [ID, setID] = useState(false);
-  const { data, error, isLoading } = useState();
-
+  // const { data, error, isLoading } = useState();
   useEffect(() => {
+    console.log(data?.result)
     // if (Books) {
-      setSortData(reservedBooks);
+      setSortData(data?.result);
     // }
-  }, []);
+  }, [data]);
   const columns = [
    
     {
       name: "Book",
-      selector: (row) => row.book,
+      selector: (row) => row?.BookId?.Title,
       sort: true,
     },
     {
       name: "Reserved By",
-      selector: (row) => row.reservedBy,
+      selector: (row) => row?.UserId?.Name,
       sort: true,
     },
     {
       name: 'Reserved At',
-      selector: (row) => row.reservedDate,
+      selector: (row) => row?.createdAt?.split("T")[0],
     },
     {
       name: "Return In",
-      selector: (row) => row.returnDate,
+      selector: (row) => `${row?.remainingDays} days`,
       sort: true,
     },
 

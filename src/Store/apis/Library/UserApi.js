@@ -6,7 +6,9 @@ const pause = (duration) => {
     setTimeout(resolve, duration);
   });
 };
-const token = localStorage.getItem("user");
+const UserToken = localStorage.getItem("user");
+const LibraryToken = localStorage.getItem("library");
+let Token;
 const Api = createApi({
   reducerPath: "users",
   baseQuery: axiosBaseQuery({
@@ -16,7 +18,7 @@ const Api = createApi({
       return fetch(...arg);
     },
     prepareHeaders: (headers) => {
-      headers["Authorization"] = `Bearer ${token}`;
+      headers["authorization"] = `Bearer ${Token}`;
       return headers;
     },
   }),
@@ -26,7 +28,8 @@ const Api = createApi({
         providesTags: (res, err, arg) => {
           return [{ type: "Users" }];
         },
-        query: () => {
+        query: (data) => {
+          
           return {
             url: "/fetch",
             params: {},
@@ -52,11 +55,14 @@ const Api = createApi({
           return [{ type: "Users" }];
         },
         query: (data) => {
+          const {Role,Data}=data;
+          if(Role === 'user')Token = UserToken;
+          if(Role === 'library')Token = LibraryToken;
           return {
             url: "/add",
             method: "POST",
-            params: {},
-            body: data,
+            params: {Role},
+            body: Data,
           };
         },
       }),
@@ -83,11 +89,13 @@ const Api = createApi({
         invalidatesTags: (res, err, arg) => {
           return [{ type: "Book" }];
         },
-        query: (plan) => {
+        query: (data) => {
+          console.log(data)
+          const {Id}=data
           return {
             url: `/remove`,
             method: "PATCH",
-            params: { planId: plan._id },
+            params: { UserId: Id },
           };
         },
       }),

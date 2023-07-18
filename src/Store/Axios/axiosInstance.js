@@ -14,12 +14,12 @@ export const axiosBaseQuery =
   (config) =>
   // ({ config } = { config: "" }) =>
   async ({ url, method, body, params, headers }) => {
-    // const prepareHeaders = config?.prepareHeaders({ ...headers })
+    const prepareHeaders = config?.prepareHeaders({ ...headers })
     const URL = config.baseUrl+url;
-    console.log( URL, method, body, params, headers);
+    console.log( URL, method, body, params, headers,prepareHeaders);
       
     try {   
-      let result = await axios({ url: URL, method, data: body, params ,headers});
+      let result = await axios({ url: URL, method, data: body, params ,headers:prepareHeaders});
       console.log(result)
       return { data: result.data }
     } catch (error) {

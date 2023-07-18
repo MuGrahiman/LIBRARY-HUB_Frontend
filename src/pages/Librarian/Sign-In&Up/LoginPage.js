@@ -29,6 +29,7 @@ function LoginPage() {
       
       })
       .catch((err) => {
+        console.log(err.message)
         toast.error(err?.data?.message);
       });
 

@@ -27,33 +27,16 @@ function UserAddModalPage({ onClose, id }) {
     console.log(formData);
     runValidator(formData)
       .then((res) => {
-        addUser(formData)
+        addUser({ Role: "library", Data: formData })
           .unwrap()
           .then(() => {
             console.log("sime");
             toast.success(" Successfully added", {
-              position: "bottom-right",
-              autoClose: 1000,
-              hideProgressBar: false,
-              closeOnClick: true,
-              pauseOnHover: false,
-              draggable: true,
-              progress: undefined,
-              theme: "light",
-              transition: Bounce,
-              onClose: () => onClose(),
+              onClose: onClose(),
             });
           })
           .catch((err) => {
             toast.error(err?.data?.message, {
-              position: "bottom-left",
-              autoClose: 5000,
-              hideProgressBar: false,
-              closeOnClick: true,
-              pauseOnHover: true,
-              draggable: true,
-              progress: undefined,
-              theme: "light",
               transition: Flip,
             });
           });
@@ -221,12 +204,12 @@ function UserAddModalPage({ onClose, id }) {
               </div>
               <div className="w-[32rem]">
                 <Input
-                  label="Contry"
-                  name="Contry"
+                  label="Country"
+                  name="Country"
                   size="lg"
                   type="string"
-                  error={!!validatorError?.Contry}
-                  value={formData.Contry}
+                  error={!!validatorError?.Country}
+                  value={formData.Country}
                   onChange={(e) =>
                     setFormData({
                       ...formData,
@@ -235,14 +218,14 @@ function UserAddModalPage({ onClose, id }) {
                   }
                   required
                 />
-                {validatorError?.Contry && (
+                {validatorError?.Country && (
                   <Typography
                     variant="small"
                     color="gray"
                     className="flex items-center gap-1 font-normal mt-2"
                   >
                     <BsExclamationCircle className="w-4 h-4 -mt-px" />
-                    {validatorError?.Contry.message}
+                    {validatorError?.Country.message}
                   </Typography>
                 )}
               </div>

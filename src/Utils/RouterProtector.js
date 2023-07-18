@@ -1,22 +1,24 @@
 import { useEffect, useState } from "react";
 import { useNavigate, Outlet, Navigate } from "react-router-dom";
 import {axiosInstance as axios} from "../Store/Axios/axiosInstance";
+import { toast } from "react-toastify";
 
 function RouterProtector({ protect }) {
+  console.log(`RouterProtector`);
   const [auth, setAuth] = useState(null);
   const token = localStorage.getItem(protect);
   const navigate = useNavigate();
-
+  
   useEffect(() => {
     axios
       .get(`/verify-token`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
-        params: { role: protect },
+        params: { Role: protect },
       })
       .then((res) => {
-        if (res.data.status) {
+        if (res?.data?.status) {
           console.log(res);
           setAuth(true);
         } else {
@@ -24,12 +26,12 @@ function RouterProtector({ protect }) {
         }
       })
       .catch((err) => {
-        console.log(err.response.data.message);
-        // localStorage.removeItem(protect)
+        console.log(err)
+        toast.error(err?.response?.data?.message || err?.message);
+        localStorage.removeItem(protect)
         navigate(`/${protect}/login`)
       });
   }, [navigate, protect, token]);
-  console.log(`err.response.data.message`);
 
   if (auth === null) return null;
 

@@ -1,10 +1,4 @@
-// import SideBar from '../../Components/SideBar';
-// import SearchBar from '../../Components/SearchBar';
-// import LBMListPage from './LBMListpage'
-// import LBMAddPage from './LBMAddPage';
-// import useWindowWidth from '';
-// import Table from "../../Components/Tables/Table";
-// import { Menus,Books,reservedBooks,userData } from '../data'
+
 import React, { useEffect, useState } from "react";
 import Assets from "../../../Assets/new Library Logo.svg";
 import { Menus, userData } from "../../data";
@@ -19,6 +13,8 @@ import SideBar from "../../../Components/SideBar";
 import Table from "../../../Components/Tables/Table";
 import UserAddModalPage from "./UserAddModalPage";
 import { useFetchUsersQuery } from "../../../Store";
+import { toast } from "react-toastify";
+import UserEditModalPage from "./UserEditModalPage";
 
 function UserListPage() {
   const [sortData, setSortData] = useState([]);
@@ -30,26 +26,28 @@ function UserListPage() {
   const { data, error, isLoading } = useFetchUsersQuery();
 
   useEffect(() => {
-    if(data)setSortData(data?.result,);
-  }, [data]);
+    console.log(data,error)
+    if(data)setSortData(data?.result,)
+    if(error)toast.error(error?.data?.message||error?.message)
+  }, [data, error]);
   const columns = [
     {
       name: "ID",
-      selector: (row) => row.libraryID,
+      selector: (row) => row.LibraryCode,
       sort: true,
     },
     {
       name: "Name",
-      selector: (row) => row.username,
+      selector: (row) => row.Name,
       sort: true,
     },
     {
       name: "Email",
-      selector: (row) => row.email,
+      selector: (row) => row.Email,
     },
     {
       name: "Contact No",
-      selector: (row) => row.contactno,
+      selector: (row) => row.PhoneNo,
       sort: true,
     },
 
@@ -73,16 +71,16 @@ function UserListPage() {
   const Visible_Headings = getVisibleHeadings();
 
   useEffect(() => {
-    const filteredData = userData?.filter(
+    const filteredData = data?.filter(
       (content) =>
-        content.book
+        content.Name
           ?.toLowerCase()
           .includes(search?.toString().toLowerCase()) ||
-        content.author
+        content.LibraryCode
           ?.toString()
           .toLowerCase()
           .includes(search?.toString().toLowerCase()) ||
-        content.reservedBy
+        content.Email
           ?.toString()
           .includes(search?.toString().toLowerCase())
     );
@@ -158,7 +156,7 @@ function UserListPage() {
 
         {content}
         {formModal && <UserAddModalPage onClose={() => setFormModal(false)} />}
-        {/* {editModal && <LRMEditPage id={ID} onClose={() => setEditModal(false)} />} */}
+        {editModal && <UserEditModalPage id={ID} setId={setID} onClose={() => setEditModal(false)} />}
       </div>
     </div>
   );

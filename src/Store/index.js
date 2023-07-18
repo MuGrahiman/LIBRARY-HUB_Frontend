@@ -8,6 +8,7 @@ import { Api as libraryLoginApi } from "./apis/Library/LoginApi";
 import { Api as booksApi } from "./apis/Library/BooksApi";
 import { Api as UserApi } from "./apis/Library/UserApi";
 import { Api as CategoryApi } from "./apis/Library/CategoryApi";
+import { Api as ReserveApi } from "./apis/Library/ReserveApi";
 const store = configureStore({
   //when ever create new api call  here like this
   reducer: {
@@ -18,6 +19,7 @@ const store = configureStore({
     [booksApi.reducerPath]: booksApi.reducer,
     [UserApi.reducerPath]: UserApi.reducer,
     [CategoryApi.reducerPath]: CategoryApi.reducer,
+    [ReserveApi.reducerPath]: ReserveApi.reducer,
   },
   middleware: (getDefaultMiddleware) => {
 
@@ -27,7 +29,8 @@ const store = configureStore({
       .concat(libraryLoginApi.middleware)
       .concat(booksApi.middleware)
       .concat(UserApi.middleware)
-      .concat(CategoryApi.middleware);
+      .concat(CategoryApi.middleware)
+      .concat(ReserveApi.middleware);
     //when ever you create an api you got an middleware and also connect the middle ware like this
     // .concat(adminPlanApi.middleware);
   },
@@ -58,6 +61,15 @@ export {
   useGetBookQuery,
   useRemoveBookMutation,
 } from "./apis/Library/BooksApi";
+
+export {
+  useAddReservedDataMutation,
+  useEditReservedDataMutation,
+  useFetchReservedDataQuery,
+  useGetReservedDataQuery,
+  useDeleteReservedDataMutation,
+} from "./apis/Library/ReserveApi";
+
 export {
   useAddUserMutation,
   useEditUserMutation,

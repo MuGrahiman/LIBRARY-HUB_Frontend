@@ -1,4 +1,4 @@
-export default function Nav() {
+export default function Nav({}) {
   return (
     <div className="bg-blue-400 pt-1 sticky mb-3 flex px-9">
     <div className="container py-1 flex items-center justify-center md:justify-start mx-auto">

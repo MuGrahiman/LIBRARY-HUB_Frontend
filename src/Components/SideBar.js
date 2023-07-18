@@ -58,7 +58,7 @@ const navigate = useNavigate();
                     !onOpen && "hidden"
                   } text-2xl  origin-left duration-200`}
                 >
-                  {Menu.to}
+                  {Menu.title}
                 </span>
               </li>
             </NavLink>

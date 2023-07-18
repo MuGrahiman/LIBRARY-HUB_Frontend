@@ -59,7 +59,7 @@ function OTPPage() {
         localStorage.setItem("library", success);
         toast.success("Login successfully", {
          
-          onClose: navigate("/library/dashboard"),
+          onClose:navigate("/library/dashboard"),
         });
       })
       .catch((err) => {

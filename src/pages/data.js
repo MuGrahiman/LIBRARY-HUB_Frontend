@@ -2,7 +2,7 @@ import { CgProfile } from "react-icons/cg";
 import { FaAddressBook, FaUsers } from "react-icons/fa";
 import { GiVerticalBanner,GiPriceTag } from "react-icons/gi";
 import { ImBooks } from "react-icons/im";
-import { MdCategory, MdDashboardCustomize, MdEventNote } from "react-icons/md";
+import { MdCategory, MdDashboardCustomize, MdLogout } from "react-icons/md";
 
 export const TABLE_ROWS = [
   {
@@ -120,14 +120,14 @@ export const TABLE_ROWS = [
 export const Menus = [
   { title: "Dashboard", to:'dashboard', icon: <MdDashboardCustomize /> },
   { title: "Catalog", to:'collection', icon: <ImBooks /> },
-  { title: "Orders", to:'reserved', icon: <FaAddressBook /> },
+  { title: "Orders", to:'reserve', icon: <FaAddressBook /> },
   { title: "Users ", to:'users', icon: <FaUsers /> },
   { title: "Plans", to:'plans', icon: <GiPriceTag /> },
   // { title: "Events", to:'events', icon: <MdEventNote /> },
   // { title: "Category", to:'category', icon: <MdCategory /> },
   // { title: "Banner ", to:'banner', icon: <GiVerticalBanner /> },
   { title: "Profile", to:'profile', icon: <CgProfile /> },
-  { title: "Log-Out", to:'logout', icon: <CgProfile /> },
+  { title: "Log-Out", to:'logout', icon: <MdLogout /> },
 ];
 
 export const TABLPLANROWS = [
