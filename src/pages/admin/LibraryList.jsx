@@ -84,7 +84,7 @@ const [refresh,setRefresh] = useState(false)
   );
   return (
     <div>
-      <Nav />
+      <Nav Href={"/admin/dashboard"}/>
       <SearchBar
         HEAD="Library List"
         INPUT={INPUT}

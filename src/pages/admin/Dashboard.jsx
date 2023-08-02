@@ -12,7 +12,7 @@ function ADashboardPage() {
   const navigate = useNavigate()
   return (
     <div>
-      <Nav />
+      <Nav Href={"/admin/dashboard"}/>
       <div className="container mx-auto ">
         <div className="w-full md:flex justify-between  my-5 items-center ">
           <div className="w-1/3 m-5">
