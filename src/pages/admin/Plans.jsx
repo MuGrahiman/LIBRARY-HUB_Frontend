@@ -142,8 +142,8 @@ function APlanPage() {
   }
 
   return (
-    <div>
-      <Nav Href={"/admin/dashboard"}/>
+    <div className="w-full h-screen">
+      {/* <Nav Href={"/admin/dashboard"}/> */}
       {content}
       {formModal && <APlanModalFormPage onClose={() => setFormModal(false)} />}
       {editModal && <APlanModalListPage plan={Plan} onClose={() => setEditModal(false)} />}

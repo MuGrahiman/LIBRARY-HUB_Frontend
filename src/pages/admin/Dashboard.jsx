@@ -12,9 +12,9 @@ function ADashboardPage() {
   const navigate = useNavigate()
   return (
     <div>
-      <Nav Href={"/admin/dashboard"}/>
+      {/* <Nav Href={"/admin/dashboard"}/> */}
       <div className="container mx-auto ">
-        <div className="w-full md:flex justify-between  my-5 items-center ">
+        {/* <div className="w-full md:flex justify-between  my-5 items-center ">
           <div className="w-1/3 m-5">
             <Button
               className="rounded-lg  bg-white shadow-xl hover:drop-shadow-lg  hover:bg-blue-400"
@@ -53,7 +53,7 @@ function ADashboardPage() {
               Log-Out
             </Button>
           </div>
-        </div>
+        </div> */}
         <div className=" lg:flex w-full justify-evenly items-center my-5 gap-9">
           <div className="md:flex w-full justify-evenly items-center my-4 gap-9">
             <div

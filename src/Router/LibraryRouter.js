@@ -14,37 +14,39 @@ import PlanPage from "../pages/Librarian/PLAN/Plans";
 import CategoryPage from "../pages/Librarian/CATEGORY/CategoryPage";
 import Logout from "../Utils/Log-Out";
 import RouterProtector from "../Utils/RouterProtector";
+import Footer from "../Components/Footer";
 
 function LibraryRouter() {
   const [open, setOpen] = useState(true);
 
   return (
     <Routes>
-        <Route path="login" element={<LoginPage />} /> 
-        <Route path="otp" element={<OTPPage />} /> 
-        <Route path="signup" element={<SignUpPage />} /> 
-        <Route path='/' element={<RouterProtector protect={'library'}/>}>
-
-      <Route
-        path="/"
-        element={
-          <SideBar
-            Menus={Menus}
-            Logo={Assets}
-            onClose={() => setOpen(!open)}
-            onOpen={open}
-            Title={"Lunar Library"}
-          />
-        }
-      >
-        <Route path="dashboard" element={<DashboardPage />} /> 
-        <Route path="collection" element={<BookListPage />} />
-        <Route path="reserve" element={<ReserveListPage />} />
-        <Route path="users" element={<UserListPage />} />
-        <Route path="plans" element={<PlanPage />} />
-        <Route path="category" element={<CategoryPage />} />
-        <Route path="logout" element={<Logout item='library' />} />
-      </Route>
+      <Route path="/" element={<Footer />}>
+        <Route path="login" element={<LoginPage />} />
+        <Route path="otp/:id" element={<OTPPage />} />
+        <Route path="signup" element={<SignUpPage />} />
+        {/* <Route path="/" element={<RouterProtector protect={"library"} />}> */}
+          <Route
+            path="/"
+            element={
+              <SideBar
+                Menus={Menus}
+                Logo={Assets}
+                onClose={() => setOpen(!open)}
+                onOpen={open}
+                Title={"Lunar Library"}
+              />
+            }
+          >
+            <Route path="dashboard" element={<DashboardPage />} />
+            <Route path="collection" element={<BookListPage />} />
+            <Route path="reserve" element={<ReserveListPage />} />
+            <Route path="users" element={<UserListPage />} />
+            <Route path="plans" element={<PlanPage />} />
+            <Route path="category" element={<CategoryPage />} />
+            <Route path="logout" element={<Logout item="library" />} />
+          </Route>
+        {/* </Route> */}
       </Route>
     </Routes>
   );

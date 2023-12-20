@@ -137,7 +137,7 @@ function UserListPage() {
   }
   return (
     <div className="flex w-full mx-0">
-      <div className={` ${sBar ? "w-72" : " w-20"} bg-transparent flex-none`}>
+      {/* <div className={` ${sBar ? "w-72" : " w-20"} bg-transparent flex-none`}>
         <SideBar
           Menus={Menus}
           Logo={Assets}
@@ -145,7 +145,7 @@ function UserListPage() {
           onOpen={sBar}
           Title={"Lunar Library"}
         />
-      </div>
+      </div> */}
       <div className={` w-3/4 flex-col overflow-x-hidden mx-auto`}>
         <SearchBar
           BTName="ADD"

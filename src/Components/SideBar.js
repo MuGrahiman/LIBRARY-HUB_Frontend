@@ -4,7 +4,6 @@ import { NavLink, useLocation, useNavigate, Outlet } from "react-router-dom";
 import { AiOutlineRightCircle } from "react-icons/ai";
 
 function SideBar({ Menus, Logo, Title, onOpen, onClose }) {
-  console.log("hi therre in the SideBar");
   const navigate = useNavigate();
   const [expand, setExpand] = useState(false);
   const [Act, setAct] = useState("");
@@ -16,34 +15,39 @@ function SideBar({ Menus, Logo, Title, onOpen, onClose }) {
   }, [location.pathname]);
   return (
     <div className="flex w-full mx-0">
-      <div className="fixed">
+      <div className="sticky">
         <div
           className={` ${
             onOpen ? "w-[260px]" : " w-[80px]"
-          } bg-blue-500 h-screen p-5  pt-8  relative duration-300 shadow-black`}
+          } bg-blue-500 h-full p-5  pt-8  relative duration-300 shadow-black`}
         >
-          <AiOutlineRightCircle
+         {onClose && <AiOutlineRightCircle
             className={`absolute cursor-pointer -right-3 top-9 w-7 h-7 bg-white border-white
            border-2 rounded-full  ${!onOpen && "rotate-180"}`}
             onClick={() => onClose()}
-          />
-          <div className="flex gap-x-4 items-center">
-            <img
-              src={Logo}
-              alt="somer"
-              className={`cursor-pointer w-10 h-10 duration-500 ${
-                onOpen && "rotate-[360deg]"
-              }`}
-            />
-            <h1
-              className={`text-white origin-left font-semibold text-xl duration-200 ${
-                !onOpen && "scale-0"
-              }`}
-            >
-              {Title}
-            </h1>
+          />}
+
+          <div className="flex gap-x-4 items-center justify-center">
+            {Logo && (
+              <img
+                src={Logo}
+                alt="somer"
+                className={`cursor-pointer w-10 h-10 duration-500 ${
+                  onOpen && "rotate-[360deg]"
+                }`}
+              />
+            )}
+            {Title && (
+              <h1
+                className={`text-white origin-left font-semibold text-xl duration-200 ${
+                  !onOpen && "scale-0"
+                }`}
+              >
+                {Title}
+              </h1>
+            )}
           </div>
-          <ul className="pt-6 flex-col h-screen ">
+          <ul className="pt-6 flex-col h-full ">
             {Menus.map((Menu, index) => (
               <NavLink to={Menu.to} key={index}>
                 <li

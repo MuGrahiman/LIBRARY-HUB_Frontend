@@ -14,6 +14,19 @@ const fetchLibrary = createAsyncThunk(
   }
 );
 
+const fetchSingleLibrary = createAsyncThunk(
+  "library/singlefetch",
+  async (data, { rejectWithValue }) => {
+    try {
+      const response = await axiosInstance.get("/library/fetch");
+      await pause(1000);
+      return response.data.result;
+    } catch (error) {
+      return rejectWithValue(error);
+    }
+  }
+);
+
 const addLibrary = createAsyncThunk(
   "library/add",
   async (data, { rejectWithValue }) => {
@@ -94,6 +107,7 @@ const pause = (duration) => {
 
 export {
   fetchLibrary,
+  fetchSingleLibrary,
   addLibrary,
   logLibrary,
   unBlockLibrary,

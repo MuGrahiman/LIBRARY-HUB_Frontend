@@ -49,7 +49,7 @@ export {
 } from "./apis/PlansApi";
 export { useLogAdminMutation } from "./apis/Admin/LoginApi";
 export {
-  useLogLibraryMutation,
+  useLoginMutation,
   useOTPMutation,
   useResendMutation,
 } from "./apis/Library/LoginApi";

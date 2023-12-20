@@ -26,10 +26,11 @@ const Api = createApi({
         providesTags: (res, err, arg) => {
           return [{ type: "Book" }];
         },
-        query: () => {
+        query: ({Role,ID}) => {
+          console.log(ID)
           return {
             url: "/fetch",
-            params: {},
+            params: {LibraryId:ID,Role},
             method: "GET",
 
           };
@@ -42,7 +43,7 @@ const Api = createApi({
         query: (data) => {
           return {
             url: `/single`,
-            params: { Id: data._id },
+            params: { Id: data._id},
             method: "GET",
           };
         },
@@ -52,15 +53,16 @@ const Api = createApi({
         invalidatesTags: (res, err, arg) => {
           return [{ type: "Book" }];
         },
-        query: (data) => {
+        query: ({Data,Role}) => {
+          console.log(Data,Role)
           return {
             url: "/add",
             method: "POST",
               headers: {
               "Content-Type": `multipart/form-data`,
             },
-            params: {},
-            body: data,
+            params: {Role},
+            body: Data,
           };
         },
       }),
@@ -70,16 +72,16 @@ const Api = createApi({
           return [{ type: "Book" }];
         },
 
-        query: (data) => {
+        query: ({Data,Role}) => {
           
           return {
             url: `/single`,
-            params: { Id: data.Id },
+            params: { Id: Data.Id },
             method: "PUT",
             headers: {
               "Content-Type": "multipart/form-data",
             },
-            body: data.Data,
+            body: Data.Data,
           };
         },
       }),

@@ -20,12 +20,12 @@ function BookAddModalPage({ onClose, id }) {
   const [addBook, result] = useAddBookMutation();
   const [runValidator, validatorError] = useValidator(BooksSchema);
   const [formData, setFormData] = useState(schema);
-
+// const 
   const handleFormSubmit = async () => {
     runValidator(formData)
       .then((res) => {
         const data = FormDataAppend(formData);
-        addBook(data)
+        addBook({Data:formData,Role:'library'})
           .unwrap()
           .then(() => {
             console.log("sime");

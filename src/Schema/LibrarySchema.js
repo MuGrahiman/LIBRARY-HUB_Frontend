@@ -1,17 +1,18 @@
 import * as Yup from "yup";
 export const LibrarySchema = {
-    Name: "",
-    PhoneNo: undefined,
-    Email: "",
-    Contry: "",
-    State: "",
-    District: "",
-    City: "",
-    Area: "",
-    LandMark: "",
-    PinNo: undefined,
-   //  Logo: null,
-}
+  Name: "",
+  PhoneNo: undefined,
+Country: "",
+  State: "",
+  District: "",
+  City: "",
+  Area: "",
+  LandMark: "",
+  PinNo: undefined,
+  //  Logo: null,
+  Longitude: '',
+  Latitude: '',
+};
 
 const LibraryValidationSchema = Yup.object().shape({
   Name: Yup.string().required("Name is required"),
@@ -27,6 +28,8 @@ const LibraryValidationSchema = Yup.object().shape({
   City: Yup.string().required("City is required"),
   Area: Yup.string().required("Area is required"),
   LandMark: Yup.string().required("LandMark is required"),
+  Longitude: Yup.string().required("Longitude is required"),
+  Latitude: Yup.string().required("Latitude is required"),
   PinNo: Yup.string()
     .matches(/^\d{6}$/, "PinNo number is not valid")
     .required("Mobile number is required"),

@@ -21,9 +21,11 @@ function BookListPage() {
   const [sBar, setSBar] = useState(true);
   const [formModal, setFormModal] = useState(false);
   const [editModal, setEditModal] = useState(false);
-  const [ID, setID] = useState(false);
+  const [Id, setId] = useState(false);
   // const { data, error, isLoading } = useState();
-  const { data, error, isLoading } = useFetchBooksQuery();
+  const ID = localStorage.getItem("libraryid");
+
+  const { data, error, isLoading } = useFetchBooksQuery({ID});
 
   useEffect(() => {
     if (data) setSortData(data?.result);
@@ -91,7 +93,7 @@ function BookListPage() {
 
   const HandleEdit = (id) => {
     console.log(id);
-    setID(id);
+    setId(id);
     setEditModal(true);
   };
 
@@ -154,7 +156,7 @@ function BookListPage() {
 
       {content}
       {formModal && <BookAddModalPage onClose={() => setFormModal(false)} />}
-      {editModal && <BookEditModalPage Data={ID} onClose={() => setEditModal(false)}/>}
+      {editModal && <BookEditModalPage Data={Id} onClose={() => setEditModal(false)}/>}
     </div>
 
     // </div>

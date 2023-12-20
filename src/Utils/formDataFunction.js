@@ -1,6 +1,7 @@
 const data = new FormData();
 export const FormDataAppend = (Data) => {
   for (const field in Data) {
+    if(field === 'CoverBook')console.log(Data[field])
     data.append(field, Data[field]);
   }
 

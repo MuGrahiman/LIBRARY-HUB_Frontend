@@ -1,19 +1,22 @@
 import React, { useEffect, useState } from "react";
 import Login from "../../../Components/Login";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useOTPMutation, useResendMutation } from "../../../Store";
 import useCript from "../../../Hooks/use-Cript";
 import { Bounce, Flip, ToastContainer, toast } from "react-toastify";
 import { Spinner } from "@material-tailwind/react";
 
 function OTPPage() {
+  let ID = useParams().id; // Get the library ID from the URL
   const navigate = useNavigate();
   const [postOTP, results] = useOTPMutation();
   const [reSend, result] = useResendMutation();
   const [minutes, setMinutes] = useState(1);
   const [seconds, setSeconds] = useState(0);
   const [otp, setOtp] = useState(Array(5).fill(""));
-  console.log(result);
+  const inputRefs = Array(5)
+    .fill(null)
+    .map(() => React.createRef());
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -38,10 +41,12 @@ function OTPPage() {
 
   const resendOTP = () => {
     console.log(result);
-    reSend()
+    reSend({Role:'library',Id:ID})
       .unwrap()
-      .then(() => {
-        toast.info("Resend OTP Successfully",);
+      .then((res) => {
+        console.log(res)
+        ID = res?.id;
+        toast.info("Resend OTP Successfully");
         setMinutes(1);
         setSeconds(30);
       })
@@ -49,17 +54,18 @@ function OTPPage() {
         toast.error(err?.data?.message);
       });
   };
-  console.log(result);
 
   const handleSubmit = () => {
-    postOTP(otp)
+    console.log(ID)
+    postOTP({Data:otp,Role:'library',Id:ID})
       .unwrap()
       .then((res) => {
-        const { success } = res;
+        const { success,id } = res;
+        
         localStorage.setItem("library", success);
+        localStorage.setItem("libraryid", id);
         toast.success("Login successfully", {
-         
-          onClose:navigate("/library/dashboard"),
+          onClose: navigate("/library/dashboard"),
         });
       })
       .catch((err) => {
@@ -73,26 +79,32 @@ function OTPPage() {
         .fill("")
         .map((_, i) => (
           <input
-            key={i}
+            key={`input-${i}`}
             className=" w-1/6 h-[50px] bg-transparent 
              text-blue-gray-700 font-sans font-normal outline outline-0 
              focus:outline-0 border focus:border-2 text-center
              text-4xl rounded-md border-blue-gray-200 focus:border-blue-500"
             name="OTP"
-            type="number"
+            type="text"
             size="lg"
+            inputMode="numeric"
             onInput={(e) => {
               e.target.value = e.target.value
                 .replace(/[^0-9]/g, "")
                 .slice(0, 1);
             }}
-            onChange={(e) =>
+            ref={inputRefs[i]}
+            onChange={(e) => {
+              const currentValue = e.target.value;
+
               setOtp(
-                otp.map((value, index) =>
-                  index === i ? e.target.value : value
-                )
-              )
-            }
+                otp.map((value, index) => (index === i ? currentValue : value))
+              );
+
+              if (currentValue !== "" && i < inputRefs.length - 1) {
+                inputRefs[i + 1].current.focus();
+              }
+            }}
             value={otp[i]}
           />
         ))}
@@ -103,7 +115,10 @@ function OTPPage() {
     <div className="text-light-blue-800 text-xl text-center font-extrabold">
       <div className="countdown-text">
         {result.isLoading ? (
-         <div className="flex justify-center w-full gap-8"> <Spinner className="h-4 w-4" /> </div>
+          <div className="flex justify-center w-full gap-8">
+            {" "}
+            <Spinner className="h-4 w-4" />{" "}
+          </div>
         ) : (
           <>
             {seconds > 0 || minutes > 0 ? (

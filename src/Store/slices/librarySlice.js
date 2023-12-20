@@ -1,10 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { fetchLibrary, addLibrary, blockLibrary, unBlockLibrary, updateLibrary, logLibrary } from "../thunks/libraryThunk";
+import { fetchLibrary,fetchSingleLibrary, addLibrary, blockLibrary, unBlockLibrary, updateLibrary, logLibrary } from "../thunks/libraryThunk";
 
 const libraryDataSlice = createSlice({
   name: "library",
   initialState: {
     data: [],
+    id:'',
     isLoading: false,
     error: null,
   },
@@ -34,13 +35,25 @@ const libraryDataSlice = createSlice({
       state.isLoading = false;
       state.error = action.payload;
     });
+    //Fetch Single Library Data
+    builder.addCase(fetchSingleLibrary.pending, (state, action) => {
+      state.isLoading = true;
+    });
+    builder.addCase(fetchSingleLibrary.fulfilled, (state, action) => {
+      state.isLoading = false;
+      state.data = action.payload;
+    });
+    builder.addCase(fetchSingleLibrary.rejected, (state, action) => {
+      state.isLoading = false;
+      state.error = action.payload;
+    });
     //ADD New Library
     builder.addCase(addLibrary.pending, (state, action) => {
       state.isLoading = true;
     });
     builder.addCase(addLibrary.fulfilled, (state, action) => {
       state.isLoading = false;
-      // state.data = action.payload;
+      // state.data =  action.payload;
     });
     builder.addCase(addLibrary.rejected, (state, action) => {
       state.isLoading = false;

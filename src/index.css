@@ -9,9 +9,7 @@
     h3 {
       @apply text-lg;
     }
-    a {
-      @apply text-blue-600 underline;
-    }
+   
   }
 @tailwind components;
 @tailwind utilities;
@@ -36,6 +34,6 @@ body{
 
 /* For IE, Edge and Firefox */
 .scrollbar-hide {
-  -ms-overflow-style: none;  /* IE and Edge */
-  scrollbar-width: none;  /* Firefox */
+  -ms-overflow-style: none;  
+  scrollbar-width: none; 
 }

@@ -1,15 +1,15 @@
 import React, { useState } from "react";
-import Login from "../../../Components/Login";
+import Login from "../../../src/Components/Login";
 import { Input } from "@material-tailwind/react";
 import Swal from "sweetalert2";
 import { Flip, ToastContainer, toast } from "react-toastify";
 
 import { Navigate, useNavigate } from "react-router-dom";
-import { useLogLibraryMutation, useLoginMutation } from "../../../Store";
-import useCript from "../../../Hooks/use-Cript";
+import { useLogLibraryMutation, useLogUserMutation, useLoginMutation } from "../../../src/Store";
+import useCript from "../../../src/Hooks/use-Cript";
 
 function LoginPage() {
-  const [encryptTheData, decryptTheData] = useCript();
+  const [encryptTheData,decryptTheData] = useCript()
   const [logLibrary, results] = useLoginMutation();
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
@@ -19,16 +19,16 @@ function LoginPage() {
   const handleChange = (e) =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
   const handleSubmit = () =>
-    logLibrary({ Data: formData, Role: "library" })
+
+    logLibrary({Data:formData,Role:'user'})
       .unwrap()
       .then((res) => {
-        console.log(res);
         toast.success("Email Validate successfully", {
-          onClose: navigate(`/library/otp/${res?.id}`),
+          onClose:navigate("/library/otp")
         });
       })
       .catch((err) => {
-        console.log(err.message);
+        console.log(err.message,err)
         toast.error(err?.data?.message);
       });
 
@@ -36,7 +36,7 @@ function LoginPage() {
     <div className="h-screen flex justify-center items-center">
       {/* <ToastContainer /> Render ToastContainer component */}
       <Login
-        // signIn={"/library/signup"}
+        signIn={"/user/signup"}
         isLoading={results.isLoading}
         InputContent={
           <Input

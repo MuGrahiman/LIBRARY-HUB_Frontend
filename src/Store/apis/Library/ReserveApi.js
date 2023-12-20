@@ -1,4 +1,4 @@
-import { createApi } from "@reduxjs/toolkit/query/react";
+import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { axiosBaseQuery } from "../../Axios/axiosInstance";
 // @reduxjs/toolkit/query does not create any custum hook use above query
 const pause = (duration) => {
@@ -6,39 +6,40 @@ const pause = (duration) => {
     setTimeout(resolve, duration);
   });
 };
-const UserToken = localStorage.getItem("user");
-const LibraryToken = localStorage.getItem("library");
-let Token;
+const token = localStorage.getItem('library')
 const Api = createApi({
-  reducerPath: "users",
-  baseQuery: axiosBaseQuery({
-    baseUrl: "http://localhost:4001/users",
-    fetchFn: async (...arg) => {
+  reducerPath: "reserve",
+  baseQuery: fetchBaseQuery({ 
+    baseUrl: "http://localhost:4001/reserve",
+    fetchFn:async (...arg)=>{
       await pause(1000);
       return fetch(...arg);
     },
     prepareHeaders: (headers) => {
-      headers["authorization"] = `Bearer ${Token}`;
+      headers['Authorization'] = `Bearer ${token}`;
       return headers;
     },
   }),
   endpoints(builder) {
     return {
-      fetchUsers: builder.query({
+
+      fetchReservedData: builder.query({
         providesTags: (res, err, arg) => {
-          return [{ type: "Users" }];
+          return [{ type: "Reserve" }];
         },
-        query: (data) => {
+        query: () => {
           return {
             url: "/fetch",
             params: {},
             method: "GET",
+
           };
         },
       }),
-      getUser: builder.query({
+
+      getReservedData: builder.query({
         invalidatesTags: (res, err, arg) => {
-          return [{ type: "Users" }];
+          return [{ type: "Reserve" }];
         },
         query: (data) => {
           return {
@@ -49,26 +50,23 @@ const Api = createApi({
         },
       }),
 
-      addUser: builder.mutation({
+      addReservedData: builder.mutation({
         invalidatesTags: (res, err, arg) => {
-          return [{ type: "Users" }];
+          return [{ type: "Reserve" }];
         },
         query: (data) => {
-          const { Role, Data } = data;
-          if (Role === "user") Token = UserToken;
-          if (Role === "library") Token = LibraryToken;
           return {
             url: "/add",
             method: "POST",
-            params: { Role },
-            body: Data,
+            params: {},
+            body: data,
           };
-        },
+        },  
       }),
 
-      editUser: builder.mutation({
+      editReservedData: builder.mutation({
         invalidatesTags: (res, err, arg) => {
-          return [{ type: "User" }];
+          return [{ type: "Reserve" }];
         },
 
         query: (data) => {
@@ -83,32 +81,30 @@ const Api = createApi({
           };
         },
       }),
-
-      toggleUser: builder.mutation({
+  
+      deleteReservedData: builder.mutation({
         invalidatesTags: (res, err, arg) => {
-          return [{ type: "Book" }];
+          return [{ type: "Reserve" }];
         },
-        query: (data) => {
-          console.log(data);
-          const { Id } = data;
+        query: (plan) => {
           return {
-            url: `/remove`,
-            method: "PATCH",
-            params: { UserId: Id },
+            url: `/toggle`,
+            method: "DELETE",
+            params: { planId: plan._id },
           };
         },
       }),
+
     };
   },
 });
 
 export const {
-  useAddUserMutation,
-  useEditUserMutation,
-  useFetchUsersQuery,
-  useGetUserQuery,
-  useToggleUserMutation,
-  
+  useAddReservedDataMutation,
+  useEditReservedDataMutation,
+  useFetchReservedDataQuery,
+  useGetReservedDataQuery,
+useDeleteReservedDataMutation
 } = Api;
 
 export { Api };

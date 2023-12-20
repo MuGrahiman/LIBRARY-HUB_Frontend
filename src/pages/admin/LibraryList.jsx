@@ -18,16 +18,16 @@ function AListPage() {
   const [search, setSearch] = useState("");
   const [formModal, setFormModal] = useState(false);
   const [editModal, setEditModal] = useState(false);
-const [refresh,setRefresh] = useState(false)
+  const [refresh, setRefresh] = useState(false);
   const [runfetchLibrary, isfetchLibraryError, isfetchLibraryLoading] =
     useThunk(fetchLibrary);
 
   useEffect(() => {
-    runfetchLibrary()
+    runfetchLibrary();
     // .then((res)=>setData(res)).catch(err=>console.log(err));
-  }, [runfetchLibrary,refresh]);
+  }, [runfetchLibrary, refresh]);
 
-  const TABLE_HEAD = [ "Name", "Email", "PhoneNO", "Status", "Details"];
+  const TABLE_HEAD = ["Name", "Email", "PhoneNO", "Status", "Details"];
 
   let content;
   if (isfetchLibraryLoading) {
@@ -83,16 +83,17 @@ const [refresh,setRefresh] = useState(false)
     </Button>
   );
   return (
-    <div>
-      <Nav Href={"/admin/dashboard"}/>
-      <SearchBar
-        HEAD="Library List"
-        INPUT={INPUT}
-        ACTION={SearchActionBar}
-      />
+    <div className="w-full h-screen ">
+      {/* <Nav Href={"/admin/dashboard"}/> */}
+      <SearchBar HEAD="Library List" INPUT={INPUT} ACTION={SearchActionBar} />
 
       {content}
-      {formModal && (<LibraryListModalForm onClose={() => setFormModal(false)} Refresh={()=>setRefresh(!refresh)}/>)}
+      {formModal && (
+        <LibraryListModalForm
+          onClose={() => setFormModal(false)}
+          Refresh={() => setRefresh(!refresh)}
+        />
+      )}
       {/* {editModal && <APlanModalListPage  onClose={() => setEditModal(false)} />} */}
     </div>
   );
